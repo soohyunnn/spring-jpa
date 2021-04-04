@@ -14,8 +14,8 @@ public class Study {
     private String name;
 
     //1사람이 여러개의 스터디를 만들 수 있음 => 스터디입장에서는 ManyToOne(Account가 Collection이 아니기 때문에 One으로 설정)
-//    @ManyToOne
-//    private Account owner;
+    @ManyToOne
+    private Account owner;
 
     public Long getId() {
         return id;
@@ -33,11 +33,11 @@ public class Study {
         this.name = name;
     }
 
-//    public Account getOwner() {
-//        return owner;
-//    }
-//
-//    public void setOwner(Account owner) {
-//        this.owner = owner;
-//    }
+    public Account getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Account owner) {
+        this.owner = owner;
+    }
 }

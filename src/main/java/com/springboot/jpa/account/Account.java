@@ -32,7 +32,8 @@ public class Account {
     private Address address;
 
     //한 명은 여러개의 study를 할 수 있기 때문에 Account 입장에서 OneToMany
-    @OneToMany
+    //양방향으로 정의하려면 Study쪽에서 Account를 정의한 필드명을 mapperBy로 지정해주어야 연결됨.
+    @OneToMany(mappedBy = "owner")
     private Set<Study> studies = new HashSet<>();
 
     public Long getId() {
@@ -65,5 +66,17 @@ public class Account {
 
     public void setStudies(Set<Study> studies) {
         this.studies = studies;
+    }
+
+    //추가
+    public void addStudy(Study study) {
+        this.getStudies().add(study);  //이거는 Account에 관계를 설정하는 것
+        study.setOwner(this);  //Study에 관계를 설정하는 것
+    }
+
+    //삭제
+    public void removeStudy(Study study) {
+        this.getStudies().remove(study);
+        study.setOwner(null);
     }
 }

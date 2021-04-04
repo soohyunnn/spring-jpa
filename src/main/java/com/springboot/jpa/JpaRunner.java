@@ -26,9 +26,13 @@ public class JpaRunner implements ApplicationRunner {
 
         Study study = new Study();
         study.setName("Spring Data JPA");
-        //study.setOwner(account);
 
-        account.getStudies().add(study);
+
+//        account.getStudies().add(study);  //이거는 Account에 관계를 설정하는 것
+//        study.setOwner(account);  //Study에 관계를 설정하는 것
+
+        //위의 두 소스를 하나의 메소드로 리팩토링
+        account.addStudy(study);
 
         //영속성 -> DB에 저장을 의미
         //entityManager.persist(account);
