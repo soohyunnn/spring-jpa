@@ -1,6 +1,7 @@
 package com.springboot.jpa;
 
 import com.springboot.jpa.account.Account;
+import com.springboot.jpa.account.Study;
 import org.hibernate.Session;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -23,13 +24,18 @@ public class JpaRunner implements ApplicationRunner {
         account.setUsername("soohyun");
         account.setPassword("123");
 
+        Study study = new Study();
+        study.setName("Spring Data JPA");
+        study.setOwner(account);
+
         //영속성 -> DB에 저장을 의미
-        entityManager.persist(account);
+        //entityManager.persist(account);
 
 
         //JPA는 하이버네이트를 사용하기 때문에 하이버네이트 API를 사용할 수 있습니다.
         //하이버네이트의 가장 핵심적인 API는 session 입니다.
-        //Session session = entityManager.unwrap(Session.class);
-        //session.save(account);
+        Session session = entityManager.unwrap(Session.class);
+        session.save(account);
+        session.save(study);
     }
 }
