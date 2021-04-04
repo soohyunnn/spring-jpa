@@ -2,6 +2,8 @@ package com.springboot.jpa.account;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Account {
@@ -29,6 +31,10 @@ public class Account {
     })
     private Address address;
 
+    //한 명은 여러개의 study를 할 수 있기 때문에 Account 입장에서 OneToMany
+    @OneToMany
+    private Set<Study> studies = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -51,5 +57,13 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Study> getStudies() {
+        return studies;
+    }
+
+    public void setStudies(Set<Study> studies) {
+        this.studies = studies;
     }
 }

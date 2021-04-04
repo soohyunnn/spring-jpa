@@ -26,7 +26,9 @@ public class JpaRunner implements ApplicationRunner {
 
         Study study = new Study();
         study.setName("Spring Data JPA");
-        study.setOwner(account);
+        //study.setOwner(account);
+
+        account.getStudies().add(study);
 
         //영속성 -> DB에 저장을 의미
         //entityManager.persist(account);
