@@ -63,6 +63,12 @@ public class JpaRunner implements ApplicationRunner {
         System.out.println("=====================");
         System.out.println(comment2.getComment());
         System.out.println(comment2.getPost().getTitle());
+        System.out.println();
+        //n+1 Test를 위한 코드
+        post.getComments().forEach(c -> {
+            System.out.println("----------------------");
+            System.out.println(c.getComment());
+        });
 //        session.save(account);
 //        session.save(study);
 
