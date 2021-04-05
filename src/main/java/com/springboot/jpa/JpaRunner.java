@@ -27,13 +27,7 @@ public class JpaRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Post> query = builder.createQuery(Post.class);
-        Root<Post> root = query.from(Post.class);
-        query.select(root);
-
-        List<Post> posts = entityManager.createQuery(query).getResultList();
+        List<Post> posts = entityManager.createNativeQuery("SELECT * FROM Post", Post.class).getResultList();
         posts.forEach(System.out::println);
-
     }
 }
