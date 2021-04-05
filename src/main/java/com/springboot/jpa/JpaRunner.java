@@ -54,7 +54,15 @@ public class JpaRunner implements ApplicationRunner {
         //하이버네이트의 가장 핵심적인 API는 session 입니다.
         Session session = entityManager.unwrap(Session.class);
         //이렇게 하면 Post만 들어갑니다.
-        session.save(post);
+        //session.save(post);
+//        Post post1 = session.get(Post.class, 1L);
+//        System.out.println("======================");
+//        System.out.println(post1.getTitle());
+
+        Comment comment2 = session.get(Comment.class, 2L);
+        System.out.println("=====================");
+        System.out.println(comment2.getComment());
+        System.out.println(comment2.getPost().getTitle());
 //        session.save(account);
 //        session.save(study);
 

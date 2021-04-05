@@ -13,7 +13,7 @@ public class Post {
     private String title;
 
     //CascadeType.PERSIST는 Post의 내용을 Comment에 전파를 해달라고 하는 명령어
-    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
 
     public void addComment(Comment comment) {
