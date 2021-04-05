@@ -1,9 +1,6 @@
 package com.springboot.jpa.account;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +13,7 @@ public class Post {
     private String title;
 
     //CascadeType.PERSIST는 Post의 내용을 Comment에 전파를 해달라고 하는 명령어
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST)
     private Set<Comment> comments = new HashSet<>();
 
     public void addComment(Comment comment) {
