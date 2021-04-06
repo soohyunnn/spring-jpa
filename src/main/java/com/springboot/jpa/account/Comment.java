@@ -21,6 +21,16 @@ public class Comment {
         return id;
     }
 
+    private Integer likeCount;
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
