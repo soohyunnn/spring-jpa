@@ -21,11 +21,16 @@ import java.util.List;
 public class JpaRunner implements ApplicationRunner {
 
     @Autowired
-    Soohyun soohyun;
+    PostRepository postRepository;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        System.out.println("==================");
-        System.out.println(soohyun.getName());
+        Post post = new Post();
+        post.setTitle("Spring");
+
+        Comment comment = new Comment();
+        comment.setComment("Hello");
+
+        postRepository.save(post);
     }
 }
