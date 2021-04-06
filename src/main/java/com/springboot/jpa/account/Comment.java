@@ -21,7 +21,7 @@ public class Comment {
         return id;
     }
 
-    private Integer likeCount;
+    private Integer likeCount = 0;
 
     public Integer getLikeCount() {
         return likeCount;
