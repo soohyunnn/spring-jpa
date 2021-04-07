@@ -12,6 +12,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
@@ -25,7 +27,7 @@ public class CommonRepositoryTest {
     CommentRepository commentRepository;
 
     @Test
-    public void crud() {
+    public void crud() throws ExecutionException, InterruptedException {
         this.createComment(100, "spring data jpa");
         this.createComment(55, "HIBERNATE SPRING");
 
@@ -48,11 +50,21 @@ public class CommonRepositoryTest {
         //assertThat(comments3).first().hasFieldOrPropertyWithValue("likeCount", 100);
 
         //예제 4. keyword가 string인 comment 목록을 페이징 처리하여 조회 => Stream로 반환
-        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "likeCount"));
-        try(Stream<Comment> comments = commentRepository.findByCommentContainsIgnoreCase("spring", pageRequest)){
-            Comment firstComment = comments.findFirst().get();
-            assertThat(firstComment.getLikeCount()).isEqualTo(100);
-        }
+//        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "likeCount"));
+//        try(Stream<Comment> comments = commentRepository.findByCommentContainsIgnoreCase("spring", pageRequest)){
+//            Comment firstComment = comments.findFirst().get();
+//            assertThat(firstComment.getLikeCount()).isEqualTo(100);
+//        }
+
+        //예제 5. 비동기 쿼리 -> 해당 메소드를 호출해서 실행하는 것을 별도의 Thread에게 위힘하는 것입니다.
+        PageRequest pageRequest = PageRequest.of(0,10, Sort.by(Sort.Direction.DESC, "likeCount"));
+
+        Future<List<Comment>> future = commentRepository.findByCommentContainsIgnoreCase("spring", pageRequest); //noneblocking call
+        System.out.println("=======================");
+        System.out.println("is done?" + future.isDone());  //결과가 나왔는지 안나왔는지 확인.
+
+        List<Comment> comments = future.get();  //결과가 나올때까지 대기. (다른 get()도 존재, 정해진 시간만큼 기다려주는 설정이 추가) => get을 호출할 때 blocking이 됩니다.
+        comments.forEach(System.out::println);
 
     }
 

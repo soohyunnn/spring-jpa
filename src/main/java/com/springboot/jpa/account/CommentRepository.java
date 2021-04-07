@@ -4,8 +4,10 @@ package com.springboot.jpa.account;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.stream.Stream;
 
 public interface CommentRepository extends MyRepository<Comment, Long>{
@@ -29,7 +31,12 @@ public interface CommentRepository extends MyRepository<Comment, Long>{
     //Page<Comment> findByCommentContainsIgnoreCase(String keyword, Pageable pageable);
 
     //예제 4. keyword가 string인 comment 목록을 페이징 처리하여 조회 => Stream로 반환
-    Stream<Comment> findByCommentContainsIgnoreCase(String keyword, Pageable pageable);
+    //Stream<Comment> findByCommentContainsIgnoreCase(String keyword, Pageable pageable);
+
+    //예제 5. 비동기 쿼리 -> 해당 메소드를 호출해서 실행하는 것을 별도의 Thread에게 위힘하는 것입니다.
+    //Future를 사용하면 non-blocking 코드를 만들 수 있습니다.
+    @Async
+    Future<List<Comment>> findByCommentContainsIgnoreCase(String keyword, Pageable pageable);
 
 
 
