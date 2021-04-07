@@ -15,6 +15,14 @@ public class PostRepositoryTest {
 
     @Test
     public void crud() {
-        postRepository.findMyPost();
+        //postRepository.findMyPost();
+
+        Post post = new Post();
+        post.setTitle("hibernate");
+        postRepository.save(post);
+
+        postRepository.findMyPost();  //이걸 추가하면 INSERT와 DELETE가 실행된다.
+
+        postRepository.delete(post);
     }
 }
