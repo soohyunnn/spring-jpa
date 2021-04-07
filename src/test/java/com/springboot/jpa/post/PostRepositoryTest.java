@@ -16,17 +16,6 @@ public class PostRepositoryTest {
     @Autowired
     PostRepository postRepository;
 
-    @Autowired
-    ApplicationContext applicationContext;
-
-    @Test
-    public void event() {
-        Post post = new Post();
-        post.setTitle("event");
-        PostPublishedEvent event = new PostPublishedEvent(post);
-        applicationContext.publishEvent(event);
-    }
-
     @Test
     public void crud() {
         //postRepository.findMyPost();
