@@ -20,9 +20,9 @@ public class BookRepositoryTest {
         Book book = new Book();
         book.setTitle("spring");
         book.setContent("data");
-        bookRepository.save(book);
+        Book newBook = bookRepository.save(book);
 
-        assertEquals(1, bookRepository.findAll().size());  //1개 들어있는지 확인하는 코드
+        assertTrue(bookRepository.contains(newBook));
 
         Optional<Book> ring = bookRepository.findOne(QBook.book.title.contains("ring"));
         assertTrue(ring.isPresent());
