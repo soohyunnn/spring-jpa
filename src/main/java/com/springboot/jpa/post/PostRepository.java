@@ -1,4 +1,6 @@
 package com.springboot.jpa.post;
 
-public interface PostRepository extends MyRepository<Post, Long> {
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+
+public interface PostRepository extends MyRepository<Post, Long>, QuerydslPredicateExecutor<Post> {
 }
