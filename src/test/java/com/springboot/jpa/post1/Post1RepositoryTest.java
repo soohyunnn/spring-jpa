@@ -57,4 +57,18 @@ public class Post1RepositoryTest {
         assertThat(all.size()).isEqualTo(1);
     }
 
+    private void savePost() {
+        Post1 post1 = new Post1();
+        post1.setTitle("Spring");
+        post1Repository.save(post1);
+    }
+
+    @Test
+    public void findByTitle() {
+        savePost();
+
+        List<Post1> all = post1Repository.findByTitle("Spring");
+        assertThat(all.size()).isEqualTo(1);
+    }
+
 }
