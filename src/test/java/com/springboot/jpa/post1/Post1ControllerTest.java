@@ -44,14 +44,12 @@ public class Post1ControllerTest {
 
     @Test
     public void getPosts() throws Exception {
-        Post1 post1 = new Post1();
-        post1.setTitle("jpa");
-        post1Repository.save(post1);
+        createPost();
 
         mockMvc.perform(get("/posts")
                 .param("page", "0")
                 .param("size", "10")
-                //.param("sort", "created.desc")
+                .param("sort", "created,desc")
                 .param("sort", "title"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -61,6 +59,17 @@ public class Post1ControllerTest {
 
                 });
 
+
+    }
+
+    private void createPost() {
+        int postCount = 100;
+        while(postCount > 0) {
+            Post1 post1 = new Post1();
+            post1.setTitle("jpa");
+            post1Repository.save(post1);
+            postCount--;
+        }
 
     }
 
