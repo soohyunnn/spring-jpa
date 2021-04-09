@@ -47,4 +47,14 @@ public class Post1RepositoryTest {
         assertThat(all.size()).isEqualTo(1);
     }
 
+    @Test
+    public void findByTitleStartsWith() {
+        Post1 post1 = new Post1();
+        post1.setTitle("spring Data Jpa");
+        post1Repository.save(post1);  //Post1 엔티티가 추가(INSERT) -> .persist() 호출(ID가 없기 때문에)
+
+        List<Post1> all = post1Repository.findByTitleStartsWith("spring");
+        assertThat(all.size()).isEqualTo(1);
+    }
+
 }
