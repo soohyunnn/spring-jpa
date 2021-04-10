@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
@@ -11,6 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.postgresql.jdbc.EscapedFunctions.LENGTH;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -67,8 +70,14 @@ public class Post1RepositoryTest {
     public void findByTitle() {
         savePost();
 
-        List<Post1> all = post1Repository.findByTitle("Spring");
+        String title = "title";
+        //List<Post1> all = post1Repository.findByTitle("Spring", Sort.by("title"));
+        List<Post1> all = post1Repository.findByTitle("Spring", JpaSort.unsafe(LENGTH(title)));
         assertThat(all.size()).isEqualTo(1);
+    }
+
+    private String LENGTH(String title) {
+        return title;
     }
 
 }
