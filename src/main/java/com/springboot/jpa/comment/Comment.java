@@ -5,7 +5,7 @@ import com.springboot.jpa.post1.Post1;
 import javax.persistence.*;
 
 @Entity
-//@NamedEntityGraph(name = "Comment.Post1", attributeNodes = @NamedAttributeNode("post1"))
+@NamedEntityGraph(name = "Comment.post1", attributeNodes = @NamedAttributeNode("post1"))
 public class Comment {
 
     @Id @GeneratedValue
@@ -13,7 +13,7 @@ public class Comment {
 
     private String comment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Post1 post1;
 
     public Long getId() {
