@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -55,6 +57,18 @@ public class CommentRepositoryTest {
         commentRepository.findAll(CommentSpecs.isBest().or(CommentSpecs.isGood()));
         System.out.println("======================");
         commentRepository.findAll(CommentSpecs.isBest().or(CommentSpecs.isGood()), PageRequest.of(0, 10));
+    }
+
+    @Test
+    public void qbe() {
+        Comment prove = new Comment();
+        prove.setBset(true);
+
+        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
+                .withIgnorePaths("up", "down");  // 이 부분이 필드 이름을 작성할 필요가 없다는 부분에서 거짓이 증명됩니다. (up, down 이라는 필드명을 작성해서 제외를 시켜주는 부분입니다.)
+        Example<Comment> example = Example.of(prove, exampleMatcher);
+
+        commentRepository.findAll(example);
     }
 
 }
