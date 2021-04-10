@@ -45,4 +45,28 @@ public class Comment {
     public void setPost1(Post1 post1) {
         this.post1 = post1;
     }
+
+    public int getUp() {
+        return up;
+    }
+
+    public void setUp(int up) {
+        this.up = up;
+    }
+
+    public int getDown() {
+        return down;
+    }
+
+    public void setDown(int down) {
+        this.down = down;
+    }
+
+    public boolean isBset() {
+        return bset;
+    }
+
+    public void setBset(boolean bset) {
+        this.bset = bset;
+    }
 }
