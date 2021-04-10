@@ -29,13 +29,19 @@ public class CommentRepositoryTest {
 
         Comment comment = new Comment();
         comment.setPost1(savePost);
+        comment.setComment("인강은 즐거워");
         comment.setUp(10);
         comment.setDown(1);
         commentRepository.save(comment);
 
-        commentRepository.findByPost1_Id(1L).forEach(c -> {
-            System.out.println("=================");
+        commentRepository.findByPost1_Id(savePost.getId(), CommentSummary.class).forEach(c -> {
+            System.out.println("=================CommentSummary=================");
             System.out.println(c.getVotes());
+        });
+
+        commentRepository.findByPost1_Id(savePost.getId(), CommentOnly.class).forEach(c -> {
+            System.out.println("=================CommentOnly=================");
+            System.out.println(c.getComment());
         });
     }
 

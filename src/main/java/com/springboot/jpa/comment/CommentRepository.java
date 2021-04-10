@@ -14,6 +14,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
       @EntityGraph(attributePaths = "post1")  //설정한 건(post1) EAGER로 나머지는(id, comment)는 LAZY로 가져옵니다.
       Optional<Comment> getById(Long id);
 
-      List<CommentSummary> findByPost1_Id(Long id);
+      <T> List<T> findByPost1_Id(Long id , Class<T> type);
 
 }
