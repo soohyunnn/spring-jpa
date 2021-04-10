@@ -16,6 +16,12 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     private Post1 post1;
 
+    private int up;
+
+    private int down;
+
+    private boolean bset;
+
     public Long getId() {
         return id;
     }
