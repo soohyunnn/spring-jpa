@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,10 +61,11 @@ public class Post1RepositoryTest {
         assertThat(all.size()).isEqualTo(1);
     }
 
-    private void savePost() {
+    private Post1 savePost() {
         Post1 post1 = new Post1();
         post1.setTitle("Spring");
-        post1Repository.save(post1);
+        Post1 save = post1Repository.save(post1);
+        return save;
     }
 
     @Test
@@ -78,6 +80,27 @@ public class Post1RepositoryTest {
 
     private String LENGTH(String title) {
         return title;
+    }
+
+    @Test
+    public void updateTitle() {
+        Post1 spring = savePost();
+
+        int update = post1Repository.updateTitle("hibernate", spring.getId());
+        assertThat(update).isEqualTo(1);
+
+        Optional<Post1> byId = post1Repository.findById(spring.getId());
+        assertThat(byId.get().getTitle()).isEqualTo("hibernate");  // => 실패
+    }
+
+    //이 방법을 추천(UPDATE 필요시)
+    @Test
+    public void updateTitle1() {
+        Post1 spring = savePost();
+        spring.setTitle("hibernate");
+
+        List<Post1> all = post1Repository.findAll();
+        assertThat(all.get(0).getTitle()).isEqualTo("hibernate");
     }
 
 }
