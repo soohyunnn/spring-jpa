@@ -1,11 +1,18 @@
 package com.springboot.jpa.comment;
 
+import com.springboot.jpa.Account;
 import com.springboot.jpa.post1.Post1;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
-@NamedEntityGraph(name = "Comment.post1", attributeNodes = @NamedAttributeNode("post1"))
+@EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
     @Id @GeneratedValue
@@ -16,11 +23,25 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     private Post1 post1;
 
-    private int up;
+//    private int up;
+//
+//    private int down;
+//
+//    private boolean best;
 
-    private int down;
+    @CreatedDate
+    private Date created;
 
-    private boolean bset;
+    @CreatedBy
+    @ManyToOne
+    private Account createdBy;
+
+    @LastModifiedDate
+    private Date updated;
+
+    @LastModifiedBy
+    @ManyToOne
+    private Account updatedBy;
 
     public Long getId() {
         return id;
@@ -46,27 +67,32 @@ public class Comment {
         this.post1 = post1;
     }
 
-    public int getUp() {
-        return up;
-    }
+//    public int getUp() {
+//        return up;
+//    }
+//
+//    public void setUp(int up) {
+//        this.up = up;
+//    }
+//
+//    public int getDown() {
+//        return down;
+//    }
+//
+//    public void setDown(int down) {
+//        this.down = down;
+//    }
+//
+//    public boolean isBest() {
+//        return best;
+//    }
+//
+//    public void setBest(boolean bset) {
+//        this.best = bset;
+//    }
 
-    public void setUp(int up) {
-        this.up = up;
-    }
-
-    public int getDown() {
-        return down;
-    }
-
-    public void setDown(int down) {
-        this.down = down;
-    }
-
-    public boolean isBset() {
-        return bset;
-    }
-
-    public void setBset(boolean bset) {
-        this.bset = bset;
+    @PrePersist
+    public void prePersist() {
+        System.out.println("Pre Persist is called");
     }
 }
