@@ -40,38 +40,36 @@ public class CommentRepositoryTest {
         //comment.setDown(1);
         commentRepository.save(comment);
 
-        commentRepository.findAll();
+        commentRepository.findByPost1_Id(savePost.getId(), CommentSummary.class).forEach(c -> {
+            System.out.println("=================CommentSummary=================");
+            System.out.println(c.getVotes());
+        });
 
-//        commentRepository.findByPost1_Id(savePost.getId(), CommentSummary.class).forEach(c -> {
-//            System.out.println("=================CommentSummary=================");
-//            System.out.println(c.getVotes());
-//        });
-//
-//        commentRepository.findByPost1_Id(savePost.getId(), CommentOnly.class).forEach(c -> {
-//            System.out.println("=================CommentOnly=================");
-//            System.out.println(c.getComment());
-//        });
+        commentRepository.findByPost1_Id(savePost.getId(), CommentOnly.class).forEach(c -> {
+            System.out.println("=================CommentOnly=================");
+            System.out.println(c.getComment());
+        });
     }
 
-//    @Test
-//    public void specs() {
-//        List<Comment> all = commentRepository.findAll(CommentSpecs.isBest());
-//        System.out.println("======================");
-//        commentRepository.findAll(CommentSpecs.isBest().or(CommentSpecs.isGood()));
-//        System.out.println("======================");
-//        commentRepository.findAll(CommentSpecs.isBest().or(CommentSpecs.isGood()), PageRequest.of(0, 10));
-//    }
-//
-//    @Test
-//    public void qbe() {
-//        Comment prove = new Comment();
-//        prove.setBest(true);
-//
-//        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
-//                .withIgnorePaths("up", "down");  // 이 부분이 필드 이름을 작성할 필요가 없다는 부분에서 거짓이 증명됩니다. (up, down 이라는 필드명을 작성해서 제외를 시켜주는 부분입니다.)
-//        Example<Comment> example = Example.of(prove, exampleMatcher);
-//
-//        commentRepository.findAll(example);
-   // }
+    @Test
+    public void specs() {
+        List<Comment> all = commentRepository.findAll(CommentSpecs.isBest());
+        System.out.println("======================");
+        commentRepository.findAll(CommentSpecs.isBest().or(CommentSpecs.isGood()));
+        System.out.println("======================");
+        commentRepository.findAll(CommentSpecs.isBest().or(CommentSpecs.isGood()), PageRequest.of(0, 10));
+    }
+
+    @Test
+    public void qbe() {
+        Comment prove = new Comment();
+        prove.setBest(true);
+
+        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
+                .withIgnorePaths("up", "down");  // 이 부분이 필드 이름을 작성할 필요가 없다는 부분에서 거짓이 증명됩니다. (up, down 이라는 필드명을 작성해서 제외를 시켜주는 부분입니다.)
+        Example<Comment> example = Example.of(prove, exampleMatcher);
+
+        commentRepository.findAll(example);
+    }
 
 }

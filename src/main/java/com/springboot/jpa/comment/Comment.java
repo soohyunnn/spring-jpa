@@ -12,6 +12,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@NamedEntityGraph(name = "Comment.post1", attributeNodes = @NamedAttributeNode("post1"))
 @EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
@@ -23,11 +24,11 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     private Post1 post1;
 
-//    private int up;
-//
-//    private int down;
-//
-//    private boolean best;
+    private int up;
+
+    private int down;
+
+    private boolean best;
 
     @CreatedDate
     private Date created;
@@ -67,29 +68,29 @@ public class Comment {
         this.post1 = post1;
     }
 
-//    public int getUp() {
-//        return up;
-//    }
-//
-//    public void setUp(int up) {
-//        this.up = up;
-//    }
-//
-//    public int getDown() {
-//        return down;
-//    }
-//
-//    public void setDown(int down) {
-//        this.down = down;
-//    }
-//
-//    public boolean isBest() {
-//        return best;
-//    }
-//
-//    public void setBest(boolean bset) {
-//        this.best = bset;
-//    }
+    public int getUp() {
+        return up;
+    }
+
+    public void setUp(int up) {
+        this.up = up;
+    }
+
+    public int getDown() {
+        return down;
+    }
+
+    public void setDown(int down) {
+        this.down = down;
+    }
+
+    public boolean isBest() {
+        return best;
+    }
+
+    public void setBest(boolean bset) {
+        this.best = bset;
+    }
 
     @PrePersist
     public void prePersist() {
