@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.jpa.cmm.batch.CmmNTCBatchManager">
+
+    <select id="selectNTCBatchSchedule" parameterType="CmmNTCBatchScheduleVO" resultType="CmmNTCBatchScheduleVO">
+        <![CDATA[
+            SELECT *
+            FROM (SELECT
+                    BATCH_EXCU_PRGM_ID                                            AS BATCH_ID,
+                    TO_CHAR(TO_DATE(BATCH_BEGIN_TTM, 'HH24MISS') , 'HH24:MI:SS')  AS BEGIN_DTTM,
+                    TO_CHAR(TO_DATE(BATCH_EXPRY_TTM, 'HH24MISS') , 'HH24:MI:SS')  AS END_DTTM,
+                    PROC_CYCLE_TERMS                                              AS INTERVAL_MILLIS,
+                    USE_YN                                                        AS ENABLE_YN,
+                    CASE
+                        WHEN TO_CHAR(SYSDATE, 'HH24MISS') >= BARCH_BEGIN_TTM AND TO_CHAR(SYSDATE, 'HH24MISS') <= BATCH_EXPRY_TTM THEN 'Y'
+                        ELSE 'N'
+                    END
+                  FROM ENCB910NT
+                  WHERE BATCH_EXCU_PRGM_ID = #{batchId}
+                  UNION ALL
+                  SELECT
+                    'NTC0001'                                                    AS BATCH_ID,
+                    TO_CHAR(TO_DATE('090000', 'HH24MISS'), 'HH24:MI:SS')         AS BEGIN_DTTM,
+                    TO_CHAR(TO_DATE('150000', 'HH24MISS'), 'HH24:MI:SS')         AS END_DTTM,
+                    60000                                                        AS INTERVAL_MILLIS,
+                    'N'                                                          AS ENABLE_YN,
+                    CASE
+                        WHEN TO_CHAR(SYSDATE, 'HH24MISS') >= '090000' AND TO_CHAR(SYSDATE, 'HH24MISS') <= '150000' THEN 'Y'
+                        ELSE 'N'
+                    END
+                  FROM DUAL
+                  WHERE 'NTC0001' = #{batchId}
+                  UNION ALL
+                  SELECT
+                    'NTC0002'                                                    AS BATCH_ID,
+                    TO_CHAR(TO_DATE('090000', 'HH24MISS'), 'HH24:MI:SS')         AS BEGIN_DTTM,
+                    TO_CHAR(TO_DATE('150000', 'HH24MISS'), 'HH24:MI:SS')         AS END_DTTM,
+                    60000                                                        AS INTERVAL_MILLIS,
+                    'N'                                                          AS ENABLE_YN,
+                    CASE
+                        WHEN TO_CHAR(SYSDATE, 'HH24MISS') >= '090000' AND TO_CHAR(SYSDATE, 'HH24MISS') <= '150000' THEN 'Y'
+                        ELSE 'N'
+                    END
+                  FROM DUAL
+                  WHERE 'NTC0002' = #{batchId}
+                 )
+            WHERE ROWNUM < 2
+        ]]>
+    </select>
+
+    <select id="selectAllNTCBatchSchedule" resultType="CmmNTCBatchScheduleVO">
+        <![CDATA[
+        SELECT
+            BATCH_EXCU_PRGM_ID                                             AS BATCH_ID,
+            TO_CHAR(TO_DATE(BATCH_BEGIN_TTM, 'HH24MISS'), 'HH24:MI:SS')    AS BEGIN_DTTM,
+            TO_CHAR(TO_DATE(BATCH_EXPRY_TTM, 'HH24MISS'), 'HH24:MI:SS')    AS END_DTTM,
+            CASE
+                WHEN BATCH_EXCU_PRGM_ID <> 'NTC0001' THEN PROC_TERMS*1000
+                ELSE PROC_CYCLE_TERMS
+            END                                                            AS INTERVAL_MILLIS,
+            CASE
+                WHEN (SYSDATE-LAST_EXCU_DTTM)*24*60*60 > PROC_CYCLE_TERMS THEN 'Y'
+                ELSE 'N'
+            END                                                            AS INTERVAL_YN,
+            USE_YN                                                         AS ENABLE_YN,
+            CASE
+                WHEN TO_CHAR(SYSDATE, 'HH24MISS') >= BATCH_BEGIN_TTM AND TO_CHAR(SYSDATE, 'HH24MISS') <= BATCH_EXPRY_TTM THEN 'Y'
+            END                                                            AS SERVICE_TIME_YN
+            LAST_EXCU_DTTM
+        FROM ENCT910NT
+        ]]>
+    </select>
+
+    <insert id="updateNTCBAtchSechduleForExecTime" parameterType="CmmNTCBAtchScheduleVO">
+        UPDATE ENC910NT
+            SET LAST_EXCU_DTTM = SYSDATE
+        WHERE BATCH_EXCU_PRGM_ID = #{batchId}
+    </insert>
+
+</mapper>
