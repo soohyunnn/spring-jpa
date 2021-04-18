@@ -94,7 +94,7 @@ public class CmmNTCBatchManager implements DisposableBean {
                             continue;
                         }
 
-                        CmmNTCBatchExecResultType resultType = taskItem.check(scheduleVO);
+                        CmmNTCBatchCheckResultType resultType = taskItem.check(scheduleVO);
                         switch (resultType) {
                             case SUCCESS:
                                 //task 중지

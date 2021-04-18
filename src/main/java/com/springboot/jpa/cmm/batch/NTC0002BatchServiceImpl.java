@@ -18,7 +18,7 @@ public class NTC0002BatchServiceImpl extends CmmNTCBatchTask{
     }
 
     @Override
-    public CmmNTCBatchExecResultType check(CmmNTCBatchScheduleVO scheduleVO) throws Exception {
+    public CmmNTCBatchCheckResultType check(CmmNTCBatchScheduleVO scheduleVO) throws Exception {
         return null;
     }
 

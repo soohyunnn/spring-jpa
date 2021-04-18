@@ -17,7 +17,7 @@ public abstract class CmmNTCBatchTask {
         return batchId;
     }
 
-    public abstract CmmNTCBatchExecResultType check(CmmNTCBatchScheduleVO scheduleVO) throws Exception;
+    public abstract CmmNTCBatchCheckResultType check(CmmNTCBatchScheduleVO scheduleVO) throws Exception;
 
     public CmmNTCBatchExecResultType execute() throws Exception {
         CmmNTCBatchScheduleVO vo = new CmmNTCBatchScheduleVO();
